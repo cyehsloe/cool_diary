@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>РАСПИСАНИЕ</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --main-bg: #f4f6f9;
+            --ui-blue: #0f2c59;
+            --ui-accent: #1e56a0;
+            --ui-cyan: #00a8cc;
+            --text-main: #1c2434;
+            --text-muted: #7e8b9b;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(30, 86, 160, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 168, 172, 0.05) 0px, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            margin-top: 10px;
+        }
+
+        .header {
+            background: var(--ui-blue);
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 20px 20px 6px 6px;
+            box-shadow: 0 4px 20px rgba(15, 44, 89, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: -20px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--ui-cyan), transparent);
+            opacity: 0.15;
+            border-radius: 50%;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+        }
+
+        .schedule-list {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .event-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .time-box {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ui-accent);
+            background: rgba(30, 86, 160, 0.06);
+            padding: 6px 10px;
+            border-radius: 8px;
+            min-width: 65px;
+            text-align: center;
+            letter-spacing: -0.2px;
+        }
+
+        .text-box {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        /* ПРОШЛО */
+        .event-card.past {
+            opacity: 0.35;
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .event-card.past .time-box {
+            background: transparent;
+            color: var(--text-muted);
+        }
+
+        .event-card.past .text-box {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        /* ТЕКУЩЕЕ / БЛИЖАЙШЕЕ */
+        .event-card.current {
+            background: #ffffff;
+            border: 1px solid transparent;
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 25px rgba(30, 86, 160, 0.12);
+        }
+
+        .event-card.current::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            bottom: 12px;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--ui-accent), var(--ui-cyan));
+            border-radius: 0 4px 4px 0;
+        }
+
+        .event-card.current .time-box {
+            background: linear-gradient(135deg, var(--ui-accent), var(--ui-blue));
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(30, 86, 160, 0.2);
+        }
+
+        .event-card.current .text-box {
+            font-weight: 600;
+            color: var(--ui-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>РАСПИСАНИЕ 🌌</h1>
+            <p id="current-date">Загрузка даты...</p>
+        </div>
+
+        <div class="schedule-list">
+            
+            <div class="event-card" data-time="07:30">
+                <div class="time-box">07:30</div>
+                <div class="text-box">подъем💖</div>
+            </div>
+
+            <div class="event-card" data-time="08:00">
+                <div class="time-box">08:00</div>
+                <div class="text-box">завтрак🥞</div>
+            </div>
+
+            <div class="event-card" data-time="09:00">
+                <div class="time-box">09:00</div>
+                <div class="text-box">УЛК</div>
+            </div>
+
+            <div class="event-card" data-time="13:30">
+                <div class="time-box">13:30</div>
+                <div class="text-box">время обеда🍔</div>
+            </div>
+
+            <div class="event-card" data-time="14:30">
+                <div class="time-box">14:30</div>
+                <div class="text-box">школка🫶🏻</div>
+            </div>
+
+            <div class="event-card" data-time="17:30">
+                <div class="time-box">17:30</div>
+                <div class="text-box">план-часик 🎀</div>
+            </div>
+
+            <div class="event-card" data-time="18:30">
+                <div class="time-box">18:30</div>
+                <div class="text-box">ужин🍽️</div>
+            </div>
+
+            <div class="event-card" data-time="19:00">
+                <div class="time-box">19:00</div>
+                <div class="text-box">ДИ «Корпорация» 🧐</div>
+            </div>
+
+            <div class="event-card" data-time="21:00">
+                <div class="time-box">21:00</div>
+                <div class="text-box">чаепитие ☕️</div>
+            </div>
+
+            <div class="event-card" data-time="21:30">
+                <div class="time-box">21:30</div>
+                <div class="text-box">вечерний разговор о важном🕯️</div>
+            </div>
+
+            <div class="event-card" data-time="22:00">
+                <div class="time-box">22:00</div>
+                <div class="text-box">бежим умываться 🛁</div>
+            </div>
+
+            <div class="event-card" data-time="23:00">
+                <div class="time-box">23:00</div>
+                <div class="text-box">доброй ночи 🫂</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function updateWidget() {
+            const now = new Date();
+            const options = { weekday: 'long', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('ru-RU', options);
+
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+            const cards = document.querySelectorAll('.event-card');
+            
+            let currentFound = false;
+
+            cards.forEach(card => {
+                const timeStr = card.getAttribute('data-time');
+                const [hours, minutes] = timeStr.split(':').map(Number);
+                const cardMinutes = hours * 60 + minutes;
+
+                card.classList.remove('past', 'current');
+
+                if (cardMinutes < currentMinutes) {
+                    card.classList.add('past');
+                } else if (!currentFound) {
+                    card.classList.add('current');
+                    currentFound = true; 
+                }
+            });
+        }
+
+        updateWidget();
+        setInterval(updateWidget, 5000);
+    </script>
+</body>
+</html>
