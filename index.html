@@ -3,28 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌷ПЛАНЧИК🌷</title>
+    <title>РАСПИСАНИЕ</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
-            --y2k-pink-bg: #fff0f5;
-            --y2k-pink-dark: #ff69b4;
-            --y2k-pink-light: #ffb6c1;
-            --text-dark: #4a2e35;
-            --card-bg: rgba(255, 255, 255, 0.75);
+            --main-bg: #f4f6f9;
+            --ui-blue: #0f2c59;
+            --ui-accent: #1e56a0;
+            --ui-cyan: #00a8cc;
+            --text-main: #1c2434;
+            --text-muted: #7e8b9b;
+            --card-bg: #ffffff;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #ffe4e1 0%, #ffb6c1 50%, #e6e6fa 100%);
-            background-attachment: fixed;
+            background-color: var(--main-bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(30, 86, 160, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 168, 172, 0.05) 0px, transparent 50%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -38,38 +42,44 @@
             margin-top: 10px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
         }
 
-        /* Шапка Y2K */
         .header {
-            background: rgba(255, 105, 180, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: var(--ui-blue);
             color: #ffffff;
-            padding: 22px;
-            border-radius: 24px;
-            border: 2px solid #ffffff;
-            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.25);
-            text-align: center;
+            padding: 20px;
+            border-radius: 20px 20px 6px 6px;
+            box-shadow: 0 4px 20px rgba(15, 44, 89, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: -20px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--ui-cyan), transparent);
+            opacity: 0.15;
+            border-radius: 50%;
         }
 
         .header h1 {
-            font-family: 'Pangolin', cursive;
-            font-size: 26px;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 0px rgba(74, 46, 53, 0.2);
-            margin-bottom: 4px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
         }
 
-        .header .sub-title {
-            font-size: 14px;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.3);
-            padding: 4px 12px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 4px;
+        .header p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
         }
 
         .schedule-list {
@@ -78,116 +88,121 @@
             gap: 8px;
         }
 
-        /* Карточки планов */
         .event-card {
             background: var(--card-bg);
-            border-radius: 16px;
-            padding: 14px 16px;
+            border-radius: 12px;
+            padding: 16px;
             display: flex;
             align-items: center;
-            gap: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
+            gap: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
         }
 
         .time-box {
-            font-size: 14px;
-            font-weight: 700;
-            color: #ffffff;
-            background: var(--y2k-pink-dark);
-            padding: 6px 12px;
-            border-radius: 20px;
-            min-width: 75px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ui-accent);
+            background: rgba(30, 86, 160, 0.06);
+            padding: 6px 10px;
+            border-radius: 8px;
+            min-width: 65px;
             text-align: center;
-            box-shadow: 0 2px 6px rgba(255, 105, 180, 0.2);
+            letter-spacing: -0.2px;
         }
 
         .text-box {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
-            color: var(--text-dark);
+            color: var(--text-main);
             line-height: 1.4;
         }
 
-        /* Задачи на день */
-        .tasks-box {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 24px;
-            padding: 20px;
-            border: 2px dashed var(--y2k-pink-light);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.02);
-        }
-
-        .tasks-title {
-            font-family: 'Pangolin', cursive;
-            font-size: 18px;
-            color: var(--y2k-pink-dark);
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .task-item {
-            font-size: 13px;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            line-height: 1.4;
-            font-weight: 500;
-            display: flex;
-            align-items: flex-start;
-            gap: 6px;
-        }
-
-        /* Подпись */
-        .footer-info {
-            text-align: center;
-            padding: 12px;
-            font-size: 13px;
-            color: var(--text-dark);
-            font-weight: 500;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-
-        /* АВТО-ПРОШЛО */
+        /* ТАК ВЫГЛЯДИТ ТО, ЧТО ПРОШЛО */
         .event-card.past {
-            opacity: 0.3;
-            transform: scale(0.97);
-            filter: grayscale(30%);
+            opacity: 0.35;
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.6);
         }
+
+        .event-card.past .time-box {
+            background: transparent;
+            color: var(--text-muted);
+        }
+
         .event-card.past .text-box {
             text-decoration: line-through;
-        }
-        .event-card.past .time-box {
-            background: #b5b5b5;
-            box-shadow: none;
+            color: var(--text-muted);
         }
 
-        /* АВТО-ТЕКУЩЕЕ */
+        /* ТАК ВЫГЛЯДИТ ТЕКУЩЕЕ / БЛИЖАЙШЕЕ ДЕЛО */
         .event-card.current {
             background: #ffffff;
-            border: 2px solid var(--y2k-pink-dark);
-            transform: scale(1.02);
-            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.2);
+            border: 1px solid transparent;
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 25px rgba(30, 86, 160, 0.12);
         }
+
+        .event-card.current::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            bottom: 12px;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--ui-accent), var(--ui-cyan));
+            border-radius: 0 4px 4px 0;
+        }
+
+        .event-card.current .time-box {
+            background: linear-gradient(135deg, var(--ui-accent), var(--ui-blue));
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(30, 86, 160, 0.2);
+        }
+
         .event-card.current .text-box {
+            font-weight: 600;
+            color: var(--ui-blue);
+        }
+
+        /* ИНФОРМАЦИОННЫЕ БЛОКИ */
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid var(--ui-accent);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .info-title {
+            font-size: 14px;
             font-weight: 700;
-            color: #000000;
+            color: var(--ui-blue);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: var(--text-main);
+            line-height: 1.5;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Шапка виджета -->
+        <!-- Шапка -->
         <div class="header">
-            <h1>🌷 ПЛАНЧИК 🌷</h1>
-            <div class="sub-title">🧚🏻 ДЕНЬ 4 🧚🏻 — 03.04.2026</div>
+            <h1>РАСПИСАНИЕ 🌌</h1>
+            <p id="current-date">Загрузка даты...</p>
         </div>
 
-        <!-- Список планов -->
+        <!-- Список событий -->
         <div class="schedule-list">
             
             <div class="event-card" data-time="07:30">
@@ -200,25 +215,24 @@
                 <div class="text-box">завтрак 🥞</div>
             </div>
 
-            <!-- УЛК по урокам -->
             <div class="event-card" data-time="09:00">
                 <div class="time-box">09:00</div>
-                <div class="text-box">🧠 УЛК: 1 урок (09:00 - 09:45)</div>
+                <div class="text-box">УЛК: 1 занятие (09:00 - 09:45)</div>
             </div>
 
             <div class="event-card" data-time="10:00">
                 <div class="time-box">10:00</div>
-                <div class="text-box">🧠 УЛК: 2 урок (10:00 - 10:45)</div>
+                <div class="text-box">УЛК: 2 занятие (10:00 - 10:45)</div>
             </div>
 
             <div class="event-card" data-time="11:00">
                 <div class="time-box">11:00</div>
-                <div class="text-box">🧠 УЛК: 3 урок (11:00 - 11:45)</div>
+                <div class="text-box">УЛК: 3 занятие (11:00 - 11:45)</div>
             </div>
 
             <div class="event-card" data-time="12:00">
                 <div class="time-box">12:00</div>
-                <div class="text-box">🧠 УЛК: 4 урок (12:00 - 12:45)</div>
+                <div class="text-box">УЛК: 4 занятие (12:00 - 12:45)</div>
             </div>
 
             <div class="event-card" data-time="13:30">
@@ -233,7 +247,7 @@
 
             <div class="event-card" data-time="15:00">
                 <div class="time-box">15:00</div>
-                <div class="text-box">экскурсия по Минску! 🚌✨</div>
+                <div class="text-box">экскурсия по Минску! 🚌</div>
             </div>
 
             <div class="event-card" data-time="18:30">
@@ -243,7 +257,7 @@
 
             <div class="event-card" data-time="19:00">
                 <div class="time-box">19:00</div>
-                <div class="text-box">Дискотека 🧐💃</div>
+                <div class="text-box">Дискотека 🧐</div>
             </div>
 
             <div class="event-card" data-time="21:00">
@@ -268,43 +282,47 @@
 
         </div>
 
-        <!-- Блок задач -->
-        <div class="tasks-box">
-            <div class="tasks-title">🎀 задачи на день 🎀</div>
-            <div class="task-item">✨ друзья, не опаздываем! ставим уведомления на все беседы! помогаем друг другу 🤝</div>
-            <div class="task-item">✨ делаем профильное!!!!</div>
-            <div class="task-item">✨ слушаем всё внимательно и четко выполняем поручения 🤝</div>
+        <!-- Задачи на день -->
+        <div class="info-card">
+            <div class="info-title">Задачи на день</div>
+            <div class="info-text">
+                • Друзья, не опаздываем! Ставим уведомления на все беседы! Помогаем друг другу 🤝<br>
+                • Делаем профильное!!!!<br>
+                • Слушаем всё внимательно и четко выполняем поручения 🤝
+            </div>
         </div>
 
-        <!-- Инфо-подпись -->
-        <div class="footer-info">
-            <div>🧿 Сегодня с вами: <b>Аля Сергеевна</b></div>
-            <div style="margin-top: 4px; font-size: 11px; opacity: 0.8;">кто прочитал планчик, отправляет сердечко ❤️</div>
+        <!-- Сопровождение -->
+        <div class="info-card" style="border-left-color: var(--ui-cyan);">
+            <div class="info-title">Сегодня с вами</div>
+            <div class="info-text">🧿 Аля Сергеевна</div>
         </div>
     </div>
 
     <script>
         function updateWidget() {
             const now = new Date();
+            const options = { weekday: 'long', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('ru-RU', options);
+
             const currentMinutes = now.getHours() * 60 + now.getMinutes();
+            const cards = document.querySelectorAll('.event-card');
+            
             let currentFound = false;
 
-            document.querySelectorAll('.event-card').forEach(card => {
-                const [hours, minutes] = card.getAttribute('data-time').split(':').map(Number);
-                const cardMinutes = hours * 60 + minutes;
+            cards.forEach(card => {
+                const timeStr = card.getAttribute('data-time');
+                const [hours, minutes] = timeStr.split(':').map(Number);
 
-                card.classList.remove('past', 'current');
-
-                if (cardMinutes < currentMinutes) {
-                    card.classList.add('past');
-                } else if (!currentFound) {
-                    card.classList.add('current');
-                    currentFound = true; 
-                }
-            });
-        }
-        updateWidget();
-        setInterval(updateWidget, 5000);
-    </script>
-</body>
-</html>
+const cardMinutes = hours * 60 + minutes;
+card.classList.remove('past', 'current');
+if (cardMinutes < currentMinutes) {
+card.classList.add('past');
+} else if (!currentFound) {
+card.classList.add('current');
+currentFound = true;
+}
+});
+}
+updateWidget();
+setInterval(updateWidget, 5000);
