@@ -120,7 +120,7 @@
             line-height: 1.4;
         }
 
-        /* ТАК ВЫГЛЯДИТ ТО, ЧТО ПРОШЛО */
+        /* ПРОШЕДШИЕ СОБЫТИЯ */
         .event-card.past {
             opacity: 0.35;
             transform: scale(0.98);
@@ -137,7 +137,7 @@
             color: var(--text-muted);
         }
 
-        /* ТАК ВЫГЛЯДИТ ТЕКУЩЕЕ / БЛИЖАЙШЕЕ ДЕЛО */
+        /* ТЕКУЩЕЕ / БЛИЖАЙШЕЕ СОБЫТИЕ */
         .event-card.current {
             background: #ffffff;
             border: 1px solid transparent;
@@ -167,7 +167,6 @@
             color: var(--ui-blue);
         }
 
-        /* ИНФОРМАЦИОННЫЕ БЛОКИ */
         .info-card {
             background: var(--card-bg);
             border-radius: 12px;
@@ -295,7 +294,7 @@
         <!-- Сопровождение -->
         <div class="info-card" style="border-left-color: var(--ui-cyan);">
             <div class="info-title">Сегодня с вами</div>
-            <div class="info-text">🧿 Аля Сергеевна</div>
+            <div class="info-text">🧿 Алина Сергеевна</div>
         </div>
     </div>
 
@@ -313,12 +312,15 @@
             cards.forEach(card => {
                 const timeStr = card.getAttribute('data-time');
                 const [hours, minutes] = timeStr.split(':').map(Number);
+                const cardMinutes = hours * 60 + minutes;
 
-const cardMinutes = hours * 60 + minutes;
-card.classList.remove('past', 'current');
+                card.classList.remove('past', 'current');
+
 if (cardMinutes < currentMinutes) {
+// Время события уже прошло
 card.classList.add('past');
 } else if (!currentFound) {
+// Текущее или ближайшее событие
 card.classList.add('current');
 currentFound = true;
 }
